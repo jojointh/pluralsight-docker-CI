@@ -1,12 +1,21 @@
-# The deployment section should be excluded until
-# it is explicitly included in module 5
-
-#deployment:
-#  dockerhub:
-#    branch: master
-#    commands:
-#      - $DOCKER_HUB_TRIGGER
-
-test:
-  override:    
-    - mocha
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:4.8.2
+    steps:
+      - checkout
+      - run:
+          name: Install npm
+          command: npm install
+  test:
+    docker:
+      - image: circleci/node:4.8.2
+    steps:
+      - checkout
+      - run: npm run test
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - test
